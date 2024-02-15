@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-
-import Simple from "./layout/BasicLoyout";
 import Login from "./page/Login";
 
 import Validation from "./page/Validation";
 import UserLayout from "./layout/UserLayout";
+import Upload from "./page/Upload";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +13,10 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Upload />,
+      },
+      {
+        path: "validation",
         element: <Validation />,
       },
     ],
