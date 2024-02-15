@@ -10,11 +10,14 @@ import "@fontsource/geist-sans/700.css";
 import "@fontsource/geist-sans/600.css";
 import "@fontsource/geist-sans/400.css";
 import "@fontsource/geist-sans/500.css";
+import { AuthProvider } from "./contexts/authContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </AuthProvider>
   </React.StrictMode>,
 );
