@@ -1,5 +1,16 @@
+import { authProvider } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
+
+async function loader({ request }: { request: Request }) {
+  if (!authProvider.isAuthenticated) {
+    const params = new URLSearchParams();
+    params.set("from", new URL(request.url).pathname);
+    return redirect("/login?" + params.toString());
+  }
+
+  return {};
+}
 
 function UserLayout() {
   return (
@@ -23,4 +34,5 @@ function UserLayout() {
   );
 }
 
+UserLayout.loader = loader;
 export default UserLayout;

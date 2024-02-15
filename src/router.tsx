@@ -10,6 +10,7 @@ export const router = createBrowserRouter([
     id: "app",
     path: "/",
     element: <UserLayout />,
+    loader: UserLayout.loader,
     children: [
       {
         index: true,
@@ -24,5 +25,6 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+    action: Login.action,
   },
 ]);

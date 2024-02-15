@@ -1,15 +1,15 @@
-import { URL_BASE, tokenKey } from "./constants";
+import { URL_BASE, tokenKey } from "./constans";
 
 const savedToken = window.localStorage.getItem(tokenKey);
 
 export const authProvider = {
   isAuthenticated: savedToken !== null,
   token: savedToken,
-  async login(username: string, password: string) {
+  async login(email: string, password: string) {
     const url = URL_BASE + "/login";
     const options = {
       method: "POST",
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
       headers: {
         "Content-Type": "application/json",
       },
