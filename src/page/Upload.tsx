@@ -16,6 +16,10 @@ async function loader({ request }: { request: Request }) {
     params.set("from", new URL(request.url).pathname);
     return redirect("/login?" + params.toString());
   }
+
+  if (localStorage.getItem("data")) {
+    return redirect("/validation");
+  }
   return {};
 }
 

@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "./page/Login";
-
+import { action as logoutAction } from "./page/Logout";
 import Validation from "./page/Validation";
 import UserLayout from "./layout/UserLayout";
 import Upload from "./page/Upload";
@@ -21,6 +21,7 @@ export const router = createBrowserRouter([
       {
         path: "validation",
         element: <Validation />,
+        loader: Validation.loader,
       },
     ],
   },
@@ -28,5 +29,9 @@ export const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
     action: Login.action,
+  },
+  {
+    path: "/logout",
+    action: logoutAction,
   },
 ]);

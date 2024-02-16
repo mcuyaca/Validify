@@ -24,7 +24,8 @@ export const authProvider = {
       window.localStorage.setItem(tokenKey, body.token);
     } else {
       const error = await response.json();
-      throw new Error(error);
+      console.log(error.error);
+      throw new Error(error.error.message);
     }
   },
 
@@ -49,6 +50,7 @@ export const authProvider = {
   },
   logout() {
     window.localStorage.removeItem(tokenKey);
+    window.localStorage.removeItem("data");
     authProvider.isAuthenticated = false;
     authProvider.token = null;
   },

@@ -21,10 +21,12 @@ async function action({ request }: { request: Request }) {
   try {
     await authProvider.login(email!, password!);
   } catch (error) {
-    console.log(error);
-    return {
-      error: "Invalid login attempt",
-    };
+    if (error instanceof Error) {
+      console.log(error);
+      return {
+        error: error.message,
+      };
+    }
   }
 
   const redirectTo = formData.get("redirectTo")?.toString();
