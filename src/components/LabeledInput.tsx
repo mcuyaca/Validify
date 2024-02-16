@@ -12,7 +12,7 @@ function LabeledInput({ name, type }: Props) {
       <Label className="text-muted-foreground" htmlFor={name}>
         {name}
       </Label>
-      <Input type={type} id={name} placeholder={name} />
+      <Input type={type} id={name} name={name} placeholder={name} required />
     </>
   );
 }

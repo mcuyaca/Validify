@@ -1,4 +1,4 @@
-import { authProvider } from "@/auth";
+import { authProvider } from "@/service/auth";
 import { Button } from "@/components/ui/button";
 import { Outlet, redirect } from "react-router-dom";
 

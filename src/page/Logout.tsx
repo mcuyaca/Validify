@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-import { authProvider } from "../auth";
+import { authProvider } from "../service/auth";
 
 export async function action() {
   authProvider.logout();

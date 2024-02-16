@@ -1,2 +1,2 @@
-export const URL_BASE = import.meta.env["VITE_API_BASE_URL"];
+export const URL_BASE = "http://localhost:5500";
 export const tokenKey = "notes-auth-token";

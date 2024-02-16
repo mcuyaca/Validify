@@ -1,4 +1,4 @@
-import { URL_BASE, tokenKey } from "./constans";
+import { URL_BASE, tokenKey } from "../constans";
 
 const savedToken = window.localStorage.getItem(tokenKey);
 
@@ -16,7 +16,7 @@ export const authProvider = {
     };
 
     const response = await fetch(url, options);
-
+    console.log(response);
     if (response.ok) {
       const body = await response.json();
       authProvider.isAuthenticated = true;

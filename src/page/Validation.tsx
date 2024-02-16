@@ -13,61 +13,7 @@ import {
 } from "@/components/ui/table";
 import { CheckCircle, X } from "lucide-react";
 
-const body = {
-  data: [
-    { id: 1, name: "Juan Perez", email: "juan.perez@example.com", age: 28 },
-    { id: 2, name: "Juan Perez", email: "juan.perez@example.com", age: -28 },
-    { id: 3, name: "Juan Perez", email: "juan.perez", age: -28 },
-    { id: 4, name: "", email: "juan.perez", age: -28 },
-  ],
-};
-console.log(body);
-
-const response = {
-  ok: true,
-  data: {
-    success: [
-      { id: 1, name: "Juan Perez", email: "juan.perez@example.com", age: 28 },
-    ],
-    errors: [
-      {
-        row: 2,
-        details: {
-          age: "El campo 'age' debe ser un número positivo.",
-        },
-        original: {
-          id: 2,
-          name: "Juan Perez",
-          email: "juan.perez@example.com",
-          age: -28,
-        },
-      },
-      {
-        row: 3,
-        details: {
-          email: "El formato del campo 'email' es inválido.",
-          age: "El campo 'age' debe ser un número positivo.",
-        },
-        original: { id: 3, name: "Juan Perez", email: "juan.perez", age: -28 },
-      },
-      {
-        row: 4,
-        details: {
-          name: "El campo 'name' no puede estar vacío.",
-          email: "El formato del campo 'email' es inválido.",
-          age: "El campo 'age' debe ser un número positivo.",
-        },
-        original: {
-          id: 4,
-          name: "",
-          email: "juan.perez",
-          age: -28,
-        },
-      },
-    ],
-  },
-};
-
+const response = JSON.parse(localStorage.getItem("data")!);
 function Validation() {
   const [showAlert, setShowAlert] = React.useState(true);
 
@@ -106,8 +52,8 @@ function Validation() {
               <TableHead>Row</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Age</TableHead>
-              <TableHead>Button</TableHead>
+              <TableHead className="w-28">Age</TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
 
@@ -151,7 +97,7 @@ function Validation() {
                     />
                     {!details.age && original.age}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className=" flex justify-center">
                     <Button variant={"outline"}>Retry</Button>
                   </TableCell>
                 </TableRow>

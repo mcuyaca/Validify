@@ -1,4 +1,4 @@
-import { authProvider } from "@/auth";
+import { authProvider } from "@/service/auth";
 import LabeledInput from "@/components/LabeledInput";
 import { Button } from "@/components/ui/button";
 import BasicLayout from "@/layout/BasicLoyout";
@@ -16,7 +16,6 @@ interface ActionData {
 
 async function action({ request }: { request: Request }) {
   const formData = await request.formData();
-  console.log({ formData });
   const email = formData.get("Email")?.toString();
   const password = formData.get("Password")?.toString();
   try {

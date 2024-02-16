@@ -15,6 +15,8 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Upload />,
+        loader: Upload.loader,
+        action: Upload.action,
       },
       {
         path: "validation",
