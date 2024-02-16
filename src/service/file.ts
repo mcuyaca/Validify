@@ -49,13 +49,19 @@ export async function sendRecord(data: Data) {
 
   if (response.ok) {
     const body = await response.json();
-    localStorage.setItem("data", JSON.stringify(body));
+
     return body.data;
   }
 
   if (response.status === 401) {
     authProvider.logout();
     throw redirect("/login");
+  }
+
+  if (response.status === 400) {
+    const error = await response.json();
+    console.log(error.error);
+    throw new Error(error.error.message);
   }
 
   const body = await response.json();

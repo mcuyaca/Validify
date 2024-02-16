@@ -74,7 +74,7 @@ async function action({ request }: { request: Request }) {
     localStorage.setItem("data", JSON.stringify(newData));
     await sendRecord(newRecord);
 
-    return redirect("/validation");
+    return {};
   } catch (error) {
     if (error instanceof ZodError) {
       const errorObject: { [key: string]: string } = {};
@@ -85,8 +85,10 @@ async function action({ request }: { request: Request }) {
       });
       console.log(errorObject);
       return { error: JSON.stringify(errorObject), intent };
-    } else {
-      return { error: "Error interno del servidor", intent };
+    }
+
+    if (error instanceof Error) {
+      return { error: error.message, intent };
     }
   }
 }

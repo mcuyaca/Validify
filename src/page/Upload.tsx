@@ -25,11 +25,11 @@ async function loader({ request }: { request: Request }) {
 
 async function action({ request }: { request: Request }) {
   const formData = await request.formData();
-  const rawData = formData.get("file");
+  const rawData = formData.get("file") as File;
 
   try {
-    if (!rawData) {
-      throw new Error("No se cargó ningún archivo");
+    if (rawData.size === 0) {
+      throw new Error("No se cargó ningún archivo o esta vacio");
     }
     await sendFile(formData);
 
@@ -40,9 +40,6 @@ async function action({ request }: { request: Request }) {
         error: error.message || "Error del servidor",
       };
     }
-    return {
-      error: "Error del servidor",
-    };
   }
 }
 
