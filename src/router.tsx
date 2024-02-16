@@ -22,6 +22,7 @@ export const router = createBrowserRouter([
         path: "validation",
         element: <Validation />,
         loader: Validation.loader,
+        action: Validation.action,
       },
     ],
   },

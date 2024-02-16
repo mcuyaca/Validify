@@ -12,8 +12,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CheckCircle, X } from "lucide-react";
-import { redirect, useNavigate } from "react-router-dom";
+import { Form, redirect, useActionData, useNavigate } from "react-router-dom";
 import { authProvider } from "@/service/auth";
+import { dataSchema } from "@/models/file";
+import { ZodError } from "zod";
+import { sendRecord } from "@/service/file";
+
+interface ActionData {
+  error?: string;
+  intent: number;
+}
 
 interface ErrorItem {
   row: number;
@@ -40,10 +48,51 @@ async function loader({ request }: { request: Request }) {
   if (!localStorage.getItem("data")) {
     return redirect("/validation");
   }
+
   return {};
 }
 
+async function action({ request }: { request: Request }) {
+  const formData = await request.formData();
+  const intent = Number(formData.get("intent"));
+
+  const name = formData.get(`name-${intent}`);
+  const email = formData.get(`email-${intent}`);
+  const age = Number(formData.get(`age-${intent}`)); //
+  const body = { name, email, password: "supersecret", age, role: "user" };
+  const newRecord = dataSchema.parse(body);
+  try {
+    const oldData = JSON.parse(localStorage.getItem("data")!);
+    const oldSuccess = oldData.data.success;
+    const oldErrors = oldData.data.errors;
+    oldErrors.splice(intent, 1);
+    oldSuccess.push(body);
+    const newData = {
+      ok: true,
+      data: { success: oldSuccess, errors: oldErrors },
+    };
+    localStorage.setItem("data", JSON.stringify(newData));
+    await sendRecord(newRecord);
+
+    return redirect("/validation");
+  } catch (error) {
+    if (error instanceof ZodError) {
+      const errorObject: { [key: string]: string } = {};
+
+      error.errors.forEach((error) => {
+        const path = error.path.join(".");
+        errorObject[path] = error.message;
+      });
+      console.log(errorObject);
+      return { error: JSON.stringify(errorObject), intent };
+    } else {
+      return { error: "Error interno del servidor", intent };
+    }
+  }
+}
+
 function Validation() {
+  const actionData = useActionData() as ActionData;
   const [showAlert, setShowAlert] = React.useState(true);
   const navigate = useNavigate();
   const toggleAlert = () => {
@@ -81,7 +130,11 @@ function Validation() {
         nuevamente.
       </p>
 
-      <div className="rounded-md border">
+      <Form
+        className="rounded-md border"
+        method="POST"
+        encType="multipart/form-data"
+      >
         <Table>
           <TableHeader>
             <TableRow>
@@ -94,17 +147,16 @@ function Validation() {
           </TableHeader>
 
           <TableBody className="text-foreground">
-            {response.data.errors.map((item: ErrorItem) => {
+            {response.data.errors.map((item: ErrorItem, index: number) => {
               const key = item.row;
               const details = item.details;
               const original = item.original;
               return (
                 <TableRow id={key.toString()}>
-                  <TableCell className="itemes-center flex flex-col justify-center">
-                    {item.row + 1}
-                  </TableCell>
+                  <TableCell>{key}</TableCell>
                   <TableCell>
                     <Input
+                      name={`name-${index}`}
                       className={details.name ? "border-red-700" : ""}
                       type={details.name ? "text" : "hidden"}
                       placeholder={original.name}
@@ -117,6 +169,7 @@ function Validation() {
                   </TableCell>
                   <TableCell>
                     <Input
+                      name={`email-${index}`}
                       className={details.email ? "border-red-700" : ""}
                       type={details.email ? "email" : "hidden"}
                       placeholder={original.email}
@@ -129,8 +182,10 @@ function Validation() {
                   </TableCell>
                   <TableCell>
                     <Input
+                      name={`age-${index}`}
                       className={details.age ? "w-fit border-red-700" : ""}
                       type={details.age ? "number" : "hidden"}
+                      min="0"
                       placeholder={original.age.toString()}
                       defaultValue={original.age}
                     />
@@ -140,17 +195,26 @@ function Validation() {
                     )}
                   </TableCell>
                   <TableCell className=" flex justify-center">
-                    <Button variant={"outline"}>Retry</Button>
+                    <Button name="intent" value={index} variant={"outline"}>
+                      Retry
+                    </Button>
                   </TableCell>
                 </TableRow>
               );
             })}
           </TableBody>
         </Table>
-      </div>
+      </Form>
+      {actionData?.error && (
+        <p className="text-center text-red-700">
+          {`Error en Row ${actionData.intent + 1} : `}
+          {actionData.error}
+        </p>
+      )}
     </section>
   );
 }
 
 Validation.loader = loader;
+Validation.action = action;
 export default Validation;
