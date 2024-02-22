@@ -60,8 +60,9 @@ async function action({ request }: { request: Request }) {
   const email = formData.get(`email-${intent}`);
   const age = Number(formData.get(`age-${intent}`)); //
   const body = { name, email, password: "supersecret", age, role: "user" };
-  const newRecord = dataSchema.parse(body);
+
   try {
+    const newRecord = dataSchema.parse(body);
     const oldData = JSON.parse(localStorage.getItem("data")!);
     const oldSuccess = oldData.data.success;
     const oldErrors = oldData.data.errors;

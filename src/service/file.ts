@@ -49,7 +49,6 @@ export async function sendRecord(data: Data) {
 
   if (response.ok) {
     const body = await response.json();
-
     return body.data;
   }
 
@@ -64,6 +63,7 @@ export async function sendRecord(data: Data) {
     throw new Error(error.error.message);
   }
 
+  console.log("pase la valida");
   const body = await response.json();
   return Promise.reject(new Error(body.error));
 }
