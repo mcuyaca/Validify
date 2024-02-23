@@ -1,6 +1,6 @@
 import { URL_BASE, tokenKey } from "../constans";
 
-const savedToken = window.localStorage.getItem(tokenKey);
+const savedToken = localStorage.getItem(tokenKey);
 
 export const authProvider = {
   isAuthenticated: savedToken !== null,
