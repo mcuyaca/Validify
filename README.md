@@ -6,7 +6,11 @@ Validify es una aplicación Full Stack que tiene como objetivo permitir a los us
 
 ## Tabla de contenidos
 
--[Funcionalidades](#funcionalidades) -[Tecnologías](#tecnologías) -[Instalación](#instalación) -[Contribución](#contribución) -[Licencia](#licencia)
+- [Funcionalidades](#funcionalidades)
+- [Tecnologías](#tecnologías)
+- [Instalación](#instalación)
+- [Contribución](#contribución)
+- [Licencia](#licencia)
 
 ## Funcionalidades
 
