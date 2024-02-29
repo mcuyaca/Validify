@@ -1,5 +1,5 @@
 # Validify
-
+![750shots_so](https://github.com/mcuyaca/Validify/assets/132428045/40079029-122f-4d6c-932b-4a14ed90477f)
 ## Descripción
 
 Validify es una aplicación Full Stack que tiene como objetivo permitir a los usuarios autenticados y con el rol `admin` cargar archivos CSV para la creación de registros en una base de datos PostgreSQl.
